@@ -1,14 +1,12 @@
 package samlidp
 
 import (
+	"encoding/xml"
 	"errors"
+	"io"
 	"io/ioutil"
 
-	"encoding/xml"
-
-	"io"
-
-	"github.com/crewjam/saml"
+	"github.com/bilcus/saml"
 )
 
 func randomBytes(n int) []byte {

@@ -1,16 +1,14 @@
 package main
 
 import (
+	"crypto/rsa"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"net/http"
 	"net/url"
 
-	"crypto/tls"
-	"crypto/x509"
-
-	"crypto/rsa"
-
-	"github.com/crewjam/saml/samlsp"
+	"github.com/bilcus/saml/samlsp"
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {

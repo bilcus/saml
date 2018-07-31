@@ -1,9 +1,8 @@
 package saml
 
 import (
-	"time"
-
 	"encoding/xml"
+	"time"
 
 	"github.com/kr/pretty"
 	. "gopkg.in/check.v1"

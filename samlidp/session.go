@@ -9,10 +9,9 @@ import (
 	"text/template"
 	"time"
 
-	"golang.org/x/crypto/bcrypt"
-
-	"github.com/crewjam/saml"
+	"github.com/bilcus/saml"
 	"github.com/zenazn/goji/web"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var sessionMaxAge = time.Hour

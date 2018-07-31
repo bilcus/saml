@@ -12,8 +12,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/crewjam/saml"
-	"github.com/crewjam/saml/logger"
+	"github.com/bilcus/saml"
+	"github.com/bilcus/saml/logger"
 )
 
 const defaultTokenMaxAge = time.Hour

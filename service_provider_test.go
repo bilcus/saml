@@ -1,6 +1,8 @@
 package saml
 
 import (
+	"crypto/rsa"
+	"crypto/x509"
 	"encoding/base64"
 	"encoding/xml"
 	"net/http"
@@ -9,14 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/crewjam/saml/testsaml"
+	"github.com/bilcus/saml/testsaml"
 	"github.com/kr/pretty"
 	dsig "github.com/russellhaering/goxmldsig"
-
-	"crypto/rsa"
-
-	"crypto/x509"
-
 	. "gopkg.in/check.v1"
 )
 

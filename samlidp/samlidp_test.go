@@ -2,6 +2,7 @@ package samlidp
 
 import (
 	"crypto"
+	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"net/http"
@@ -11,13 +12,10 @@ import (
 	"testing"
 	"time"
 
-	. "gopkg.in/check.v1"
-
-	"crypto/rsa"
-
-	"github.com/crewjam/saml"
-	"github.com/crewjam/saml/logger"
+	"github.com/bilcus/saml"
+	"github.com/bilcus/saml/logger"
 	"github.com/dgrijalva/jwt-go"
+	. "gopkg.in/check.v1"
 )
 
 // Hook up gocheck into the "go test" runner.

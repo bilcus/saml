@@ -13,13 +13,12 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/bilcus/saml/logger"
+	"github.com/bilcus/saml/samlsp"
 	"github.com/dchest/uniuri"
 	"github.com/kr/pretty"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
-
-	"github.com/crewjam/saml/logger"
-	"github.com/crewjam/saml/samlsp"
 )
 
 var links = map[string]Link{}

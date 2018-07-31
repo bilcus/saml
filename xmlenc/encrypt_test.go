@@ -1,12 +1,11 @@
 package xmlenc
 
 import (
+	"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"math/rand"
 	"strings"
-
-	"crypto/x509"
 
 	"github.com/beevik/etree"
 	"github.com/kr/pretty"

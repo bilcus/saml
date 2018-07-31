@@ -14,13 +14,12 @@ import (
 	"testing"
 	"time"
 
+	"github.com/bilcus/saml"
+	"github.com/bilcus/saml/logger"
+	"github.com/bilcus/saml/testsaml"
 	"github.com/dgrijalva/jwt-go"
 	dsig "github.com/russellhaering/goxmldsig"
 	. "gopkg.in/check.v1"
-
-	"github.com/crewjam/saml"
-	"github.com/crewjam/saml/logger"
-	"github.com/crewjam/saml/testsaml"
 )
 
 // Hook up gocheck into the "go test" runner.

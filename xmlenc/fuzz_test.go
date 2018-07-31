@@ -4,9 +4,8 @@ package xmlenc
 
 import (
 	"io/ioutil"
-	"testing"
-
 	"strings"
+	"testing"
 )
 
 func TestPastFuzzingFailures(t *testing.T) {

@@ -12,15 +12,14 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"strings"
 	"time"
 
-	"os"
-
 	"github.com/beevik/etree"
-	"github.com/crewjam/saml/logger"
-	"github.com/crewjam/saml/testsaml"
-	"github.com/crewjam/saml/xmlenc"
+	"github.com/bilcus/saml/logger"
+	"github.com/bilcus/saml/testsaml"
+	"github.com/bilcus/saml/xmlenc"
 	"github.com/dgrijalva/jwt-go"
 	. "gopkg.in/check.v1"
 )
