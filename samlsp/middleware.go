@@ -141,7 +141,7 @@ func (m *Middleware) RequireAccount(handler http.Handler) http.Handler {
 
 		m.ClientState.SetState(w, r, relayState, signedState)
 		if binding == saml.HTTPRedirectBinding {
-			redirectURL := req.Redirect(relayState)
+			redirectURL := req.Redirect(relayState, m.ServiceProvider.EntityID)
 			w.Header().Add("Location", redirectURL.String())
 			w.WriteHeader(http.StatusFound)
 			return

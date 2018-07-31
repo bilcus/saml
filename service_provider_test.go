@@ -779,7 +779,7 @@ func (test *ServiceProviderTest) TestInvalidAssertions(c *C) {
 
 	assertion.Conditions.AudienceRestrictions[0].Audience.Value = "not/our/metadata/url"
 	err = s.validateAssertion(&assertion, []string{"id-9e61753d64e928af5a7a341a97f420c9"}, TimeNow())
-	c.Assert(err.Error(), Equals, "Conditions AudienceRestriction does not contain \"https://15661444.ngrok.io/saml2/metadata\"")
+	c.Assert(err.Error(), Equals, "Conditions AudienceRestriction does not contain \"https://15661444.ngrok.io/saml2/metadata\" or \"\"")
 	assertion = Assertion{}
 	xml.Unmarshal(assertionBuf, &assertion)
 }
