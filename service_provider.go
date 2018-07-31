@@ -81,6 +81,15 @@ type ServiceProvider struct {
 	// ForceAuthn allows you to force re-authentication of users even if the user
 	// has a SSO session at the IdP.
 	ForceAuthn *bool
+
+	// We expect this value as audience in AudienceRestriction
+	// Also gets appended as additional query param when first talking to the IDP
+	// ..../acs?PartnerSpId=EntityID
+	EntityID string
+
+	// Disable destination check
+	// We normally expect ACS URL as a value in samlp:Response Destination
+	NoDestinationCheck bool
 }
 
 // MaxIssueDelay is the longest allowed time between when a SAML assertion is
@@ -164,11 +173,11 @@ func (sp *ServiceProvider) MakeRedirectAuthenticationRequest(relayState string) 
 	if err != nil {
 		return nil, err
 	}
-	return req.Redirect(relayState), nil
+	return req.Redirect(relayState, sp.EntityID), nil
 }
 
 // Redirect returns a URL suitable for using the redirect binding with the request
-func (req *AuthnRequest) Redirect(relayState string) *url.URL {
+func (req *AuthnRequest) Redirect(relayState, entityID string) *url.URL {
 	w := &bytes.Buffer{}
 	w1 := base64.NewEncoder(base64.StdEncoding, w)
 	w2, _ := flate.NewWriter(w1, 9)
@@ -186,6 +195,9 @@ func (req *AuthnRequest) Redirect(relayState string) *url.URL {
 	query.Set("SAMLRequest", string(w.Bytes()))
 	if relayState != "" {
 		query.Set("RelayState", relayState)
+	}
+	if entityID != "" {
+		query.Set("PartnerSpId", entityID)
 	}
 	rv.RawQuery = query.Encode()
 
@@ -403,7 +415,7 @@ func (sp *ServiceProvider) ParseResponse(req *http.Request, possibleRequestIDs [
 		retErr.PrivateErr = fmt.Errorf("cannot unmarshal response: %s", err)
 		return nil, retErr
 	}
-	if resp.Destination != sp.AcsURL.String() {
+	if !sp.NoDestinationCheck && resp.Destination != sp.AcsURL.String() {
 		retErr.PrivateErr = fmt.Errorf("`Destination` does not match AcsURL (expected %q)", sp.AcsURL.String())
 		return nil, retErr
 	}
@@ -538,9 +550,12 @@ func (sp *ServiceProvider) validateAssertion(assertion *Assertion, possibleReque
 		if audienceRestriction.Audience.Value == sp.MetadataURL.String() {
 			audienceRestrictionsValid = true
 		}
+		if audienceRestriction.Audience.Value == sp.EntityID {
+			audienceRestrictionsValid = true
+		}
 	}
 	if !audienceRestrictionsValid {
-		return fmt.Errorf("Conditions AudienceRestriction does not contain %q", sp.MetadataURL.String())
+		return fmt.Errorf("Conditions AudienceRestriction does not contain %q or %q", sp.MetadataURL.String(), sp.EntityID)
 	}
 	return nil
 }

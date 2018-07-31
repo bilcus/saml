@@ -163,7 +163,7 @@ func (m *Middleware) RequireAccount(handler http.Handler) http.Handler {
 }
 
 func (m *Middleware) getPossibleRequestIDs(r *http.Request) []string {
-	rv := []string{}
+	var rv []string
 	for _, value := range m.ClientState.GetStates(r) {
 		jwtParser := jwt.Parser{
 			ValidMethods: []string{jwtSigningMethod.Name},

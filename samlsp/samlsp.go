@@ -20,17 +20,19 @@ const defaultTokenMaxAge = time.Hour
 
 // Options represents the parameters for creating a new middleware
 type Options struct {
-	URL               url.URL
-	Key               *rsa.PrivateKey
-	Logger            logger.Interface
-	Certificate       *x509.Certificate
-	AllowIDPInitiated bool
-	IDPMetadata       *saml.EntityDescriptor
-	IDPMetadataURL    *url.URL
-	HTTPClient        *http.Client
-	CookieMaxAge      time.Duration
-	CookieSecure      bool
-	ForceAuthn        bool
+	URL                url.URL
+	Key                *rsa.PrivateKey
+	Logger             logger.Interface
+	Certificate        *x509.Certificate
+	AllowIDPInitiated  bool
+	IDPMetadata        *saml.EntityDescriptor
+	IDPMetadataURL     *url.URL
+	HTTPClient         *http.Client
+	CookieMaxAge       time.Duration
+	CookieSecure       bool
+	ForceAuthn         bool
+	EntityID           string
+	NoDestinationCheck bool
 }
 
 // New creates a new Middleware
@@ -51,13 +53,15 @@ func New(opts Options) (*Middleware, error) {
 
 	m := &Middleware{
 		ServiceProvider: saml.ServiceProvider{
-			Key:         opts.Key,
-			Logger:      logr,
-			Certificate: opts.Certificate,
-			MetadataURL: metadataURL,
-			AcsURL:      acsURL,
-			IDPMetadata: opts.IDPMetadata,
-			ForceAuthn:  &opts.ForceAuthn,
+			Key:                opts.Key,
+			Logger:             logr,
+			Certificate:        opts.Certificate,
+			MetadataURL:        metadataURL,
+			AcsURL:             acsURL,
+			IDPMetadata:        opts.IDPMetadata,
+			ForceAuthn:         &opts.ForceAuthn,
+			EntityID:           opts.EntityID,
+			NoDestinationCheck: opts.NoDestinationCheck,
 		},
 		AllowIDPInitiated: opts.AllowIDPInitiated,
 		TokenMaxAge:       tokenMaxAge,
@@ -87,7 +91,7 @@ func New(opts Options) (*Middleware, error) {
 	}
 	// Some providers (like OneLogin) do not work properly unless the User-Agent header is specified.
 	// Setting the user agent prevents the 403 Forbidden errors.
-	req.Header.Set("User-Agent", "Golang; github.com/crewjam/saml")
+	req.Header.Set("User-Agent", "Golang; github.com/bilcus/saml")
 
 	for i := 0; true; i++ {
 		resp, err := c.Do(req)
